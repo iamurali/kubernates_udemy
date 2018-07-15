@@ -22,3 +22,28 @@ kubectl api-versions
 # get pod by the deployment yml
 kubectl get -f intro/tomcat_deployment.yml
 
+
+# =====> scalling
+
+kuberctl scale --replicas=4 deployment/tomcat_deployment
+
+# =====> Creating load balancer
+kubectl expose deployment tomcat_deployment --type=LoadBalancer --port=8080 --targer-port=8080 --name tomcat-load-balancer
+
+# =====> load balancer configs
+kubectl describe services tomcat-load-balancer
+
+# =====> rollout set
+kubectl rollout status deployments tomcat-deployment
+
+# =====> to get the rollout history
+kubectl rollout history deployments tomcat-deployment
+
+# =====> To get specific rollout details
+kubectl rollout history deployments tomcat-deployment --revision=<revisionNumber>
+
+# =====> to update the image
+kubectl set image deployment/tomcat-deployment tomcat=tomcat:9.0.1
+
+
+
