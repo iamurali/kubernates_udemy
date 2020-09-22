@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: railsapp-bowling
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: railsapp-bowling
+    spec:
+      containers:
+      - name: railsapp-bowling
+        image: bitnami/rails:5.2.0
+        ports:
+        - containerPort: 3000
+        env:
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: railsapp-secrets
+                key: database-url
+          - name: SECRET_KEY_BASE
+            valueFrom:
+              secretKeyRef:
+                name: railsapp-secrets
+                key: secret-key-base
